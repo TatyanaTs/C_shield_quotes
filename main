@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char* escapeQuotes(const char *str) {
+    const char *ptr = str;
+    size_t resultLength = strlen(str) * 2 + 1; // Максимальная длина результата
+    char *escaped = (char *)malloc(resultLength * sizeof(char));
+    size_t i = 0;
+
+    if (escaped == NULL) {
+        fprintf(stderr, "Ошибка выделения памяти.\n");
+        exit(1);
+    }
+
+    while (*ptr != '\0') {
+        if (*ptr == '"') {
+            // Проверяем предыдущий символ
+            if (ptr == str || *(ptr - 1) != '\\') {
+                // Неэкранированная кавычка
+                escaped[i++] = '\\'; // Добавляем обратный слеш
+            }
+        }
+
+        escaped[i++] = *ptr;
+        ptr++;
+    }
+
+    escaped[i] = '\0'; // Завершаем строку
+    return escaped;
+}
+
+int main() {
+    const char str[] = "Это \"строка\" с \"кавычками\".";
+    printf("Исходная строка: %s\n", str);
+    char *escaped = escapeQuotes(str);
+    printf("Результат: %s\n", escaped);
+    free(escaped);
+
+    return 0;
+}
