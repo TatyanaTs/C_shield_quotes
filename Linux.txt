@@ -1,0 +1,3 @@
+to set variables for all users use /etc/profile
+
+alias python='python3.9' - чтобы переопределить команду
